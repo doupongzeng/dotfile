@@ -1,0 +1,7 @@
+﻿---
+BasedOnStyle: Microsoft
+AccessModifierOffset: '-4'
+PointerAlignment: Left
+SpaceBeforeParens: Never
+
+...
