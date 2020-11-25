@@ -93,7 +93,8 @@ else
     if cat /proc/version | grep Microsoft &>/dev/null; then
         export wsl_version=1
     fi
-    proxy_server="127.0.0.1"
+    proxy_server="192.168.1.104"
+#    proxy_server="192.168.31.110"
 fi
 
 #========================
@@ -126,6 +127,7 @@ alias xo="xdg-open"
 alias ys="yay -Sy"
 alias tp="$HOME/Config/template/install.sh"
 alias vimf='vim $(fzf)'
+alias node=nodejs
 if [ -z ${WSL_DISTRO_NAME} ];then
     alias tmux='env TERM=screen-256color tmux'
 fi
@@ -143,8 +145,19 @@ alias cmakegd="[ -f CMakeLists.txt ] && ln -sf build/compile_commands.json ./;\
 alias cmakeb="cmakeg && cmake --build build"
 alias cmaker="cmakeg && cmake --build build --target run"
 alias leakcheck="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes"
+alias linguist="~/Qt5.14.2/5.14.2/gcc_64/bin/linguist"
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit -a -m'
+alias gcd='git checkout'
+alias gcb='git checkout -b'
 
 #========================
 # keybinding
 #========================
 bindkey '^ ' autosuggest-accept
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$PATH:$HOME/.yarn/bin"
+export FZF_DEFAULT_COMMAND=""
