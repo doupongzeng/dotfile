@@ -89,6 +89,7 @@ export FZF_CTRL_T_OPTS="--preview \"head {} -n500\" --preview-window=right:60%"
 if cat /proc/version | grep microsoft &>/dev/null; then
     proxy_server="$(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2)"
     export wsl_version=2
+    export DISPLAY="$(grep nameserver /etc/resolv.conf | sed 's/nameserver //'):0"
 else
     if cat /proc/version | grep Microsoft &>/dev/null; then
         export wsl_version=1
@@ -118,16 +119,17 @@ proxy_enable
 #========================
 # alias
 #========================
-alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
 alias vi=nvim
 alias vim=nvim
+alias zshconfig="vim ~/.zshrc"
+alias ohmyzsh="vim ~/.oh-my-zsh"
+alias vimrc="vim ~/.config/nvim/init.lua"
 alias p4=proxychains4
 alias xo="xdg-open"
 alias ys="yay -Sy"
 alias tp="$HOME/Config/template/install.sh"
 alias vimf='vim $(fzf)'
-alias node=nodejs
+#alias node=nodejs
 if [ -z ${WSL_DISTRO_NAME} ];then
     alias tmux='env TERM=screen-256color tmux'
 fi
@@ -148,7 +150,7 @@ alias leakcheck="valgrind --leak-check=full --show-leak-kinds=all --track-origin
 alias linguist="~/Qt5.14.2/5.14.2/gcc_64/bin/linguist"
 alias gs='git status'
 alias ga='git add'
-alias gc='git commit -a -m'
+alias gc='git commit -m'
 alias gcd='git checkout'
 alias gcb='git checkout -b'
 
@@ -161,3 +163,23 @@ bindkey '^ ' autosuggest-accept
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$PATH:$HOME/.yarn/bin"
 export FZF_DEFAULT_COMMAND=""
+export PATH="$PATH:/usr/local/go/bin"
+
+#screenfetch
+
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" &> /dev/null  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" &> /dev/null  # This loads nvm bash_completion
+#lazy loads nvm.sh
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  nvm_cmds=(nvm node npm yarn)
+  for cmd in $nvm_cmds ; do
+    alias $cmd="unalias $nvm_cmds && unset nvm_cmds && . $NVM_DIR/nvm.sh && $cmd"
+  done
+fi
+
+export PATH="/home/hz-wsl2/Qt/Tools/QtCreator/bin:$PATH"
+export PATH="/home/hz-wsl2/Qt/5.12.11/gcc_64/bin:$PATH"
+source "/home/hz-wsl2/emsdk/emsdk_env.sh" &> /dev/null
+
