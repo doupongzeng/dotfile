@@ -178,8 +178,10 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
     alias $cmd="unalias $nvm_cmds && unset nvm_cmds && . $NVM_DIR/nvm.sh && $cmd"
   done
 fi
+export PATH=$PATH:$NVM_BIN
 
 export PATH="/home/hz-wsl2/Qt/Tools/QtCreator/bin:$PATH"
 export PATH="/home/hz-wsl2/Qt/5.12.11/gcc_64/bin:$PATH"
 source "/home/hz-wsl2/emsdk/emsdk_env.sh" &> /dev/null
 
+cowsay "Less Search, More Try"
