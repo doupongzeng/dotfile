@@ -79,7 +79,8 @@ source $ZSH/oh-my-zsh.sh
 # environment
 #========================
 export EDITOR='nvim'
-export MANPAGER='nvim -R +":set ft=man" -'
+#  export MANPAGER='nvim -R +":set ft=man" -' #这在会man颜色会乱码 neovim 5.0+
+export MANPAGER='nvim +Man!'
 
 export FZF_DEFAULT_COMMAND="fd --exclude={.git,.svn,.idea,.vscode,build} --type f"
 export FZF_DEFAULT_OPTS="--height 60% --layout=reverse"
@@ -94,7 +95,7 @@ else
     if cat /proc/version | grep Microsoft &>/dev/null; then
         export wsl_version=1
     fi
-    proxy_server="192.168.1.104"
+    proxy_server="127.0.0.1"
 #    proxy_server="192.168.31.110"
 fi
 
