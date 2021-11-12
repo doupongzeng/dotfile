@@ -155,6 +155,8 @@ alias gc='git commit -m'
 alias gcd='git checkout'
 alias gcb='git checkout -b'
 
+alias ob='/usr/local/bin/Obsidian > /dev/null 2>&1 &'
+
 #========================
 # keybinding
 #========================
