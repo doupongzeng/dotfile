@@ -157,6 +157,7 @@ alias gcb='git checkout -b'
 
 alias fish='/usr/local/bin/asciiquarium'
 alias getidf='. $HOME/esp/esp-idf/export.sh'
+alias ob='/usr/local/bin/Obsidian > /dev/null 2>&1 &'
 
 #========================
 # keybinding
