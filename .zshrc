@@ -155,6 +155,9 @@ alias gc='git commit -m'
 alias gcd='git checkout'
 alias gcb='git checkout -b'
 
+alias fish='/usr/local/bin/asciiquarium'
+alias getidf='. $HOME/esp/esp-idf/export.sh'
+
 #========================
 # keybinding
 #========================
