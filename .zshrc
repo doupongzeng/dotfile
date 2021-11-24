@@ -155,6 +155,8 @@ alias gc='git commit -m'
 alias gcd='git checkout'
 alias gcb='git checkout -b'
 
+alias adb='~/Android/Sdk/platform-tools/adb'
+
 #========================
 # keybinding
 #========================
