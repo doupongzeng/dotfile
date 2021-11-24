@@ -159,6 +159,7 @@ alias adb='~/Android/Sdk/platform-tools/adb'
 alias fish='/usr/local/bin/asciiquarium'
 alias getidf='. $HOME/esp/esp-idf/export.sh'
 alias ob='/usr/local/bin/Obsidian > /dev/null 2>&1 &'
+alias qtcreator='qtcreator > /dev/null 2>&1 &'
 
 #========================
 # keybinding
