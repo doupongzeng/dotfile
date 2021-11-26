@@ -1,3 +1,10 @@
-nnormap <Space>4 :SwitchHeaderSource<CR>
-nnormap <Space>3 :SwitchDeclarationDefinition<CR>
-nnormap <Space>2 :^tag?$<CR>
+nnoremap <Space>4 :SwitchHeaderSource<CR>
+nnoremap <Space>3 :SwitchDeclarationDefinition<CR>
+nnoremap <Space>2 :FollowSymbolUnderCursor<CR>
+nnoremap <Space>1 :ContextHelp<CR>
+nnoremap <Space>ff :OpenAdvancedFind<CR>
+nnoremap <Space>fu :FindUsages<CR>
+nnoremap <C-]> :FollowSymbolUnderCursor<CR>
+nnoremap <C-t> :GoBack<CR>
+" nnoremap <C-i> :GoForward<CR>
+nnoremap <C-n> :ToggleLeftSidebar<CR>
