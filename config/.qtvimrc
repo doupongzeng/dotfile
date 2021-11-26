@@ -1,0 +1,3 @@
+nnormap <Space>4 :SwitchHeaderSource<CR>
+nnormap <Space>3 :SwitchDeclarationDefinition<CR>
+nnormap <Space>2 :^tag?$<CR>
