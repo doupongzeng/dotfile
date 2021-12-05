@@ -162,6 +162,7 @@ alias ob='/usr/local/bin/Obsidian > /dev/null 2>&1 &'
 alias qtcreator='qtcreator > /dev/null 2>&1 &'
 alias androidstudio='~/android-studio/bin/studio.sh > /dev/null 2>&1 &'
 alias esl='/usr/local/bin/esl > /dev/null 2>&1 &'
+alias edge='/usr/bin/microsoft-edge > /dev/null 2>&1 &'
 
 #========================
 # keybinding
