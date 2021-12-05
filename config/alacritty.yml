@@ -1,4 +1,7 @@
 font:
+  normal:
+    family: DroidSansMono Nerd Font
+    style: Book
   size: 12
 window:
   padding:
@@ -66,5 +69,6 @@ key_bindings:
   - { key: I, mode: Vi|~Search, action: ToggleViMode }
   - { key: I, mode: Vi|~Search, action: ScrollToBottom }
   - { key: V, mods: Control, mode: ~Vi, action: Paste }
+  - { key: F11, action: ToggleFullscreen}
 selection:
   save_to_clipboard: true
