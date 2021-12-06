@@ -40,6 +40,8 @@ exec --no-startup-id nm-applet
 # backgroud transparent
 exec --no-startup-id xcompmgr
 exec --no-startup-id feh --bg-scale ~/dotfile/images/04190_clouds_1680x1050.jpg
+#jianguoyun
+exec --no-startup-id ~/.nutstore/dist/bin/nutstore-pydaemon.py
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
