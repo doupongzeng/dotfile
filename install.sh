@@ -17,6 +17,7 @@ ln -sf $PWD/.tmux.conf ~/
 ln -sf $PWD/.clang-format ~/
 ln -sf $PWD/config/alacritty.yml ~/.config/alacritty/
 ln -sf $PWD/config/i3/config ~/.config/i3/
+ln -sf $PWD/config/.ideavimrc ~/.ideavimrc
 
 # tmux italic support
 tic res/screen-256color.terminfo
