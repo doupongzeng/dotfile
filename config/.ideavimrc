@@ -14,6 +14,7 @@ set matchit.vim
 
 """ Plugin settings -------------------------
 let g:argtextobj_pairs="[:],(:),<:>"
+set keep-english-in-normal-and-restore-in-insert
 
 """ Common settings -------------------------
 set showmode
@@ -37,7 +38,7 @@ map <leader>4 <Action>(CIDR.Lang.SwitchHeaderSource)
 map <leader>fu <Action>(FindUsages)
 
 map <leader>fo <Action>(ReformatCode)
+map <leader>b <Action>(Build)
 
 "map ]e <Action>(GotoNextError)
 "map <leader>e <Action>(ShowErrorDescription)
-
