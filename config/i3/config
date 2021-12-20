@@ -39,6 +39,7 @@ exec --no-startup-id nm-applet
 
 # backgroud transparent
 exec --no-startup-id xcompmgr
+#exec --no-startup-id xrandr --output LVDS-1 --off
 exec --no-startup-id feh --bg-scale ~/dotfile/images/04190_clouds_1680x1050.jpg
 #jianguoyun
 exec --no-startup-id ~/.nutstore/dist/bin/nutstore-pydaemon.py
@@ -50,6 +51,7 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -58,6 +60,14 @@ bindsym $mod+Return exec --no-startup-id alacritty
 
 # kill focused window
 bindsym $mod+q kill
+
+# sound
+bindsym $mod+p exec --no-startup-id amixer set Master 5%+
+bindsym $mod+o exec --no-startup-id amixer set Master 5%-
+
+#applications
+bindsym $mod+c exec --no-startup-id chrome
+bindsym $mod+t exec --no-startup-id qtcreator
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run

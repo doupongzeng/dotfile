@@ -174,6 +174,8 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$PATH:$HOME/.yarn/bin"
 export FZF_DEFAULT_COMMAND=""
 export PATH="$PATH:/usr/local/go/bin"
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/node-v16.13.1-linux-x64/bin"
 
 #screenfetch
 
