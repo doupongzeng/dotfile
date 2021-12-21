@@ -8,15 +8,29 @@ if [ ! -d ~/.oh-my-zsh ]; then
 fi
 
 ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
+Z_LUA_PATH=${ZSH_CUSTOM}/plugins/z.lua
+ZSH_AUTOSUGGESTIONS=${ZSH_CUSTOM}/plugins/zsh-autosuggestions
 
-git clone https://github.com/skywind3000/z.lua ${ZSH_CUSTOM}/plugins/z.lua
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+if [ ! -d $Z_LUA_PATH ]; then
+    git clone https://github.com/skywind3000/z.lua $Z_LUA_PATH
+fi
+
+if [ ! -d $ZSH_AUTOSUGGESTIONS ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_AUTOSUGGESTIONS
+fi
 
 ln -sf $PWD/.zshrc ~/
 ln -sf $PWD/.tmux.conf ~/
 ln -sf $PWD/.clang-format ~/
 ln -sf $PWD/config/alacritty.yml ~/.config/alacritty/
+if [ ! -d ~/.config/i3 ]; then
+    mkdir ~/.config/i3
+fi
+if [ ! -d ~/.config/i3status ]; then
+    mkdir ~/.config/i3status
+fi
 ln -sf $PWD/config/i3/config ~/.config/i3/
+ln -sf $PWD/config/i3status/config ~/.config/i3status/
 ln -sf $PWD/config/.ideavimrc ~/.ideavimrc
 
 # tmux italic support
