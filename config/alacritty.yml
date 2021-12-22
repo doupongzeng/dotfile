@@ -69,7 +69,7 @@ key_bindings:
   - { key: Space, mods: Control, mode: ~Search, action: ToggleViMode }
   - { key: I, mode: Vi|~Search, action: ToggleViMode }
   - { key: I, mode: Vi|~Search, action: ScrollToBottom }
-  - { key: V, mods: Control, mode: ~Vi, action: Paste }
+  # - { key: V, mods: Control, mode: ~Vi, action: Paste }
   - { key: F11, action: ToggleFullscreen}
 selection:
   save_to_clipboard: true
