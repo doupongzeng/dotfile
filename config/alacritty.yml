@@ -63,7 +63,8 @@ colors:
     white: '#ffffff'
 
 mouse_bindings:
-  - { mouse: Right, action: PasteSelection }
+  # - { mouse: Right, action: PasteSelection }
+  - { mouse: Right, action: Paste }
 key_bindings:
   - { key: Space, mods: Control, mode: ~Search, action: ToggleViMode }
   - { key: I, mode: Vi|~Search, action: ToggleViMode }
