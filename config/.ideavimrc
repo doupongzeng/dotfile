@@ -43,6 +43,10 @@ map <leader>b <Action>(Build)
 "map ]e <Action>(GotoNextError)
 "map <leader>e <Action>(ShowErrorDescription)
 
+nnoremap yiw "+yiw
+nnoremap yaw "+yaw
+nnoremap ye "+ye
+nnoremap yw "+yw
 nnoremap yy "+yy
 vnoremap y "+y
 nnoremap p "+p
