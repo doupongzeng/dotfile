@@ -39,6 +39,7 @@ map <leader>fu <Action>(FindUsages)
 
 map <leader>fo <Action>(ReformatCode)
 map <leader>b <Action>(Build)
+map <leader>r <Action>(Run)
 
 "map ]e <Action>(GotoNextError)
 "map <leader>e <Action>(ShowErrorDescription)
