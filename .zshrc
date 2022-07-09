@@ -105,11 +105,13 @@ fi
 function proxy_enable() {
     if [ ${1:-1} -eq 0 ]; then
         unset ALL_PROXY
+        unset all_proxy
         unset http_proxy
         unset https_proxy
         unset no_proxy
     else
         export ALL_PROXY=http://$proxy_server:7890
+        export all_proxy=$ALL_PROXY
         export http_proxy=$ALL_PROXY
         export https_proxy=$ALL_PROXY
         export no_proxy='127.0.0.1,192.6.6.6'
@@ -198,3 +200,5 @@ export PATH="$HOME/Qt/5.12.11/gcc_64/bin:$PATH"
 source "/home/hz-wsl2/emsdk/emsdk_env.sh" &> /dev/null
 
 cowsay "Less Search, More Try"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
