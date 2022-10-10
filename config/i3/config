@@ -40,9 +40,12 @@ exec --no-startup-id nm-applet
 # backgroud transparent
 exec --no-startup-id xcompmgr
 #exec --no-startup-id xrandr --output LVDS-1 --off
+exec --no-startup-id xrandr --output DP-4 --left-to DP-0 --auto
 exec --no-startup-id feh --bg-scale ~/dotfile/images/04190_clouds_1680x1050.jpg
 #jianguoyun
 exec --no-startup-id ~/.nutstore/dist/bin/nutstore-pydaemon.py
+#auto lock the screen
+exec "xautolock -detectsleep -time 5 -locker \"i3lock -c 000000\""
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -75,6 +78,9 @@ bindsym $mod+d exec dmenu_run
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
+bindsym Control+$mod+l exec "i3lock -c 000000"
+
 
 # change focus
 bindsym $mod+h focus left
