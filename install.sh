@@ -22,7 +22,12 @@ fi
 ln -sf $PWD/.zshrc ~/
 ln -sf $PWD/.tmux.conf ~/
 ln -sf $PWD/.clang-format ~/
+
+if [ ! -d ~/.config/alacritty ]; then
+  mkdir -p ~/.config/alacritty
+fi
 ln -sf $PWD/config/alacritty.yml ~/.config/alacritty/
+
 if [ ! -d ~/.config/i3 ]; then
     mkdir ~/.config/i3
 fi

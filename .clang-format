@@ -3,7 +3,7 @@
 Language: Cpp
 BasedOnStyle: Google
 # 访问说明符(public、private等)的偏移
-AccessModifierOffset: -4
+AccessModifierOffset: -2
 # 开括号(开圆括号、开尖括号、开方括号)后的对齐: Align, DontAlign, AlwaysBreak(总是在开括号后换行)
 AlignAfterOpenBracket: Align
 # 连续赋值时，对齐所有等号
@@ -83,9 +83,9 @@ CommentPragmas: '^ IWYU pragma:'
 # 构造函数的初始化列表要么都在同一行，要么都各自一行
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 # 构造函数的初始化列表的缩进宽度
-ConstructorInitializerIndentWidth: 4
+ConstructorInitializerIndentWidth: 2
 # 延续的行的缩进宽度
-ContinuationIndentWidth: 4
+ContinuationIndentWidth: 2
 # 去除C++11的列表初始化的大括号{后和}前的空格
 Cpp11BracedListStyle: false
 # 继承最常用的指针和引用的对齐方式
@@ -108,7 +108,7 @@ IncludeCategories:
 # 缩进case标签
 IndentCaseLabels: false
 # 缩进宽度
-IndentWidth: 4
+IndentWidth: 2
 # 函数返回类型换行时，缩进函数声明或函数定义的函数名
 IndentWrappedFunctionNames: false
 # 保留在块开始处的空行
@@ -122,7 +122,7 @@ MaxEmptyLinesToKeep: 1
 # 命名空间的缩进: None, Inner(缩进嵌套的命名空间中的内容), All
 NamespaceIndentation: Inner
 # 使用ObjC块时缩进宽度
-ObjCBlockIndentWidth: 4
+ObjCBlockIndentWidth: 2
 # 在ObjC的@property后添加一个空格
 ObjCSpaceAfterProperty: false
 # 在ObjC的protocol列表前添加一个空格
@@ -168,6 +168,6 @@ SpacesInSquareBrackets: false
 # 标准: Cpp03, Cpp11, Auto
 Standard: Cpp11
 # tab宽度
-TabWidth: 4
+TabWidth: 2
 # 使用tab字符: Never, ForIndentation, ForContinuationAndIndentation, Always
 UseTab: Never
