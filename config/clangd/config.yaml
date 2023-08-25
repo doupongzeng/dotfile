@@ -1,0 +1,63 @@
+Hover:
+  ShowAKA: Yes
+Diagnostics:
+  UnusedIncludes: Strict
+
+Index:
+  # Background: Skip
+  Background: Build
+
+CompileFlags:
+  # Treat code as C++, use C++17 standard, enable more warnings.
+  Add:
+    # - -xc++ this will error cuda code
+    - -std=c++17
+    - -Wall
+    - -Wno-missing-prototypes
+    # - --cuda-path=/usr/local/cuda this not ok, if a cpp file include cuda_runtime.h will no error, whatever cpp-cmakelist need cuda-header or not
+    # - --cuda-gpu-arch=sm_61
+    # - -L/usr/local/cuda/lib64
+    # - -I/usr/local/cuda/include
+  # Remove extra warnings specified in compile commands.
+  # Single value is also acceptable, same as "Remove: [-mabi]"
+  Remove: [-Xcompiler*, -Xptxas*, -forward-unknown-to-host-compiler, --generate-code*, -rdc=*]
+
+Diagnostics:
+  # Tweak Clang-Tidy checks.
+  ClangTidy:
+    Add: [performance*, modernize*, readability*]
+    Remove: [modernize-use-trailing-return-type]
+    CheckOptions:
+      readability-identifier-naming.VariableCase: CamelCase
+
+
+##### C sources: use the C11 standard ##################################################################################
+# If:
+#   PathMatch: [.*\.h, .*\.c]
+# CompileFlags:
+#   Add: [-xc, -std=c11]
+# ---
+##### C++ sources: use the C++20 standard ##############################################################################
+# If:
+#   PathMatch: [.*\.hpp, .*\.hh, .*\.cpp, .*\.cc]
+# CompileFlags:
+#   Add: [-xc++, -std=c++20, -stdlib=libc++]
+#   Compiler: clang++
+
+# Allow specifying more than one compile_commands.json file
+# If:
+#   PathMath: /project/target1/.*
+# CompileFlags:
+#   CompilationDatabase: /project/build/target1
+# ---
+# If:
+#   PathMath: /project/target2/.*
+# CompileFlags:
+#   CompilationDatabase: /project/build/target2
+#
+# Apply a config conditionally to all C files
+# If:
+#   PathMatch: .*\.(c|h)$
+# # Apply a config conditionally to all C++ files
+# If:
+#   PathMatch: .*\.(c|h)pp
