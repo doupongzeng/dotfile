@@ -34,7 +34,7 @@ AlwaysBreakAfterDefinitionReturnType: None
 #   AllDefinitions(所有的定义，不包括声明), TopLevelDefinitions(所有的顶级函数的定义)
 AlwaysBreakAfterReturnType: None
 # 总是在多行string字面量前换行
-AlwaysBreakBeforeMultilineStrings: false
+AlwaysBreakBeforeMultilineStrings: true
 # 总是在template声明后换行
 AlwaysBreakTemplateDeclarations: true
 # false表示函数实参要么都在同一行，要么都各自一行
@@ -50,7 +50,7 @@ BraceWrapping:
   # enum定义后面
   AfterEnum: false
   # 函数定义后面
-  AfterFunction: false
+  AfterFunction: true
   # 命名空间定义后面
   AfterNamespace: false
   # ObjC定义后面

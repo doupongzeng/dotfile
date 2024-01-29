@@ -11,7 +11,7 @@ CompileFlags:
   # Treat code as C++, use C++17 standard, enable more warnings.
   Add:
     # - -xc++ this will error cuda code
-    - -std=c++17
+    # - -std=c++17
     - -Wall
     - -Wno-missing-prototypes
     # - --cuda-path=/usr/local/cuda this not ok, if a cpp file include cuda_runtime.h will no error, whatever cpp-cmakelist need cuda-header or not
@@ -20,7 +20,7 @@ CompileFlags:
     # - -I/usr/local/cuda/include
   # Remove extra warnings specified in compile commands.
   # Single value is also acceptable, same as "Remove: [-mabi]"
-  Remove: [-Xcompiler*, -Xptxas*, -forward-unknown-to-host-compiler, --generate-code*, -rdc=*]
+  Remove: [-fno-allow-store-data-races, -fconserve-stack, -march=*, -mabi=*, -Xcompiler*, -Xptxas*, -forward-unknown-to-host-compiler, --generate-code*, -rdc=*]
 
 Diagnostics:
   # Tweak Clang-Tidy checks.

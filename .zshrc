@@ -70,6 +70,8 @@ ZSH_THEME="ys"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git sudo extract colored-man-pages fzf z.lua zsh-autosuggestions)
 
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#767676"
+
 source $HOME/.profile
 source $ZSH/oh-my-zsh.sh
 
@@ -117,7 +119,7 @@ function proxy_enable() {
         export no_proxy='127.0.0.1,192.6.6.6'
     fi
 }
-proxy_enable
+#proxy_enable
 
 #========================
 # alias
@@ -133,9 +135,10 @@ alias ys="yay -Sy"
 alias tp="$HOME/Config/template/install.sh"
 alias vimf='vim $(fzf)'
 #alias node=nodejs
-if [ -z ${WSL_DISTRO_NAME} ];then
-    alias tmux='env TERM=screen-256color tmux'
-fi
+# # if [ -z ${WSL_DISTRO_NAME} ];then
+# #     alias tmux='env TERM=screen-256color tmux'
+# # fi
+# export TERM=screen-256color
 alias ta="tmux attach || tmux"
 alias zz='z -c' # 严格匹配当前路径的子路径
 alias zi='z -i' # 使用交互式选择模式
@@ -157,7 +160,7 @@ alias gc='git commit -m'
 alias gcd='git checkout'
 alias gcb='git checkout -b'
 
-alias adb='~/Android/Sdk/platform-tools/adb'
+# alias adb='~/Android/Sdk/platform-tools/adb'
 alias fish='/usr/local/bin/asciiquarium'
 alias getidf='. $HOME/esp/esp-idf/export.sh'
 alias ob='/usr/local/bin/Obsidian > /dev/null 2>&1 &'
@@ -173,12 +176,17 @@ alias shot='flameshot gui'
 bindkey '^ ' autosuggest-accept
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$HOME/.rvm/bin:$PATH"
 export PATH="$PATH:$HOME/.yarn/bin"
 export FZF_DEFAULT_COMMAND=""
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/node-v16.13.1-linux-x64/bin"
+export PATH="$PATH:$HOME/bin/repo"
+
+# export USE_BAZEL_VERSION=6.4.0
+export USE_BAZEL_VERSION=5.1.0
+# export USE_BAZEL_VERSION=5.4.1
 
 #screenfetch
 
@@ -193,7 +201,10 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
     alias $cmd="unalias $nvm_cmds && unset nvm_cmds && . $NVM_DIR/nvm.sh && $cmd"
   done
 fi
-export PATH=$PATH:$NVM_BIN
+
+if [ -s "$NVM_BIN" ]; then
+  export PATH="$PATH:$NVM_BIN"
+fi
 
 export PATH="$HOME/Qt/Tools/QtCreator/bin:$PATH"
 export PATH="$HOME/Qt/5.12.11/gcc_64/bin:$PATH"
