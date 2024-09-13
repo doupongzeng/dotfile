@@ -1,4 +1,24 @@
 #!/bin/bash
+python_version=$(python3 --version)
+python_venv=${python_version%.*}-venv
+
+sudo apt install ${python_venv} zsh tmux fuse ssh curl git build-essential libreadline-dev unzip fzf ripgrep -y
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+curl https://sh.rustup.rs -sSf | sh
+
+nvm install --lts
+
+git clone https://github.com/doupongzeng/AstroNvim_v4_config.git ~/.config/nvim
+
+# lua and luarock
+wget http://www.lua.org/ftp/lua-5.3.5.tar.gz
+tar -zxf lua-5.3.5.tar.gz
+cd lua-5.3.5
+make linux test
+sudo make install
+cd ~/dotfile
 
 cd $(dirname $0)
 
