@@ -1,24 +1,41 @@
 #!/bin/bash
 python_version=$(python3 --version)
-python_venv=${python_version%.*}-venv
+python_venv=python$(echo $python_version | cut -d " " -f 2 | cut -d "." -f 1,2)-venv
 
 sudo apt install ${python_venv} zsh tmux fuse ssh curl git build-essential libreadline-dev unzip fzf ripgrep -y
 
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+if [ ! -d ~/.nvm ]; then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    nvm install --lts
+fi
 
-curl https://sh.rustup.rs -sSf | sh
+if [ ! -d ~/.cargo ]; then
+    curl https://sh.rustup.rs -sSf | sh
+fi
 
-nvm install --lts
 
-git clone https://github.com/doupongzeng/AstroNvim_v4_config.git ~/.config/nvim
+if [ ! -d ~/.config/nvim ]; then
+    git clone https://github.com/doupongzeng/AstroNvim_v4_config.git ~/.config/nvim
+fi
 
 # lua and luarock
+cd /tmp
 wget http://www.lua.org/ftp/lua-5.3.5.tar.gz
 tar -zxf lua-5.3.5.tar.gz
 cd lua-5.3.5
 make linux test
 sudo make install
+
+cd /tmp
+wget https://luarocks.org/releases/luarocks-3.11.1.tar.gz
+tar zxpf luarocks-3.11.1.tar.gz
+cd luarocks-3.11.1
+./configure --with-lua-include=/usr/local/include
+make && sudo make install
+sudo luarocks install luasocket
+
 cd ~/dotfile
+
 
 cd $(dirname $0)
 
