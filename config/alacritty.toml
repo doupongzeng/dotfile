@@ -71,5 +71,6 @@ bindings = [
 { key= "I", mode= "Vi|~Search", action= "ScrollToBottom" },
   # - { key= V, mods= Control, mode= ~Vi, action= Paste },
 { key= "F11", action = "ToggleFullscreen"},
+{ key = "T", mods="Control|Shift", action="CreateNewWindow"},
 ]
 
