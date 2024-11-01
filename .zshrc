@@ -188,6 +188,8 @@ export PATH="$PATH:$HOME/bin/repo"
 export USE_BAZEL_VERSION=5.1.0
 # export USE_BAZEL_VERSION=5.4.1
 
+fpath+=~/.zsh_functions
+
 #screenfetch
 
 #export NVM_DIR="$HOME/.nvm"

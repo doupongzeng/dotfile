@@ -63,7 +63,7 @@ ln -sf $PWD/.clang-format ~/
 if [ ! -d ~/.config/alacritty ]; then
   mkdir -p ~/.config/alacritty
 fi
-ln -sf $PWD/config/alacritty.yml ~/.config/alacritty/
+ln -sf $PWD/config/alacritty.toml ~/.config/alacritty/
 
 if [ ! -d ~/.config/i3 ]; then
     mkdir ~/.config/i3
