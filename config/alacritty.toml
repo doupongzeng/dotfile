@@ -1,19 +1,20 @@
 [window]
-padding = {x = 5, y = 2}
-decorations = "Full" # Full, None
-opacity = 0.7
+padding = { x = 5, y = 2 }
+decorations = "Full"       # Full, None
+opacity = 1
+startup_mode = "Maximized"
 
 [font]
-normal = {family = "DroidSansM Nerd Font", style = "Regular"}
+normal = { family = "DroidSansM Nerd Font", style = "Regular" }
 size = 13
 
 [colors]
 
-cursor = {text = "CellBackground", cursor = "CellForeground"}
-vi_mode_cursor = {text = "CellBackground", cursor = "CellForeground"}
+cursor = { text = "CellBackground", cursor = "CellForeground" }
+vi_mode_cursor = { text = "CellBackground", cursor = "CellForeground" }
 
-line_indicator = {foreground = "None", background = "None"}
-selection = {text= "CellForeground", background="#44475a"}
+line_indicator = { foreground = "None", background = "None" }
+selection = { text = "CellForeground", background = "#44475a" }
 
 [colors.primary]
 background = "#282a36"
@@ -24,12 +25,12 @@ bright_foreground = "#ffffff"
 #   background= "#282a36"
 #   foreground= "#f8f8f2"
 [colors.search]
-matches = {foreground = "#44475a", background = "#50fa7b"}
-focused_match = {foreground = "#44475a", background = "#ffb86c"}
+matches = { foreground = "#44475a", background = "#50fa7b" }
+focused_match = { foreground = "#44475a", background = "#ffb86c" }
 
 [colors.hints]
-start = {foreground =  "#282a36", background = "#f1fa8c"}
-end = {foreground = "#f1fa8c", background = "#282a36" }
+start = { foreground = "#282a36", background = "#f1fa8c" }
+end = { foreground = "#f1fa8c", background = "#282a36" }
 
 [colors.normal]
 black = "#21222c"
@@ -42,14 +43,14 @@ cyan = "#8be9fd"
 white = "#f8f8f2"
 
 [colors.bright]
-black= "#6272a4"
-red= "#ff6e6e"
-green= "#69ff94"
-yellow= "#ffffa5"
-blue= "#d6acff"
-magenta= "#ff92df"
-cyan= "#a4ffff"
-white= "#ffffff"
+black = "#6272a4"
+red = "#ff6e6e"
+green = "#69ff94"
+yellow = "#ffffa5"
+blue = "#d6acff"
+magenta = "#ff92df"
+cyan = "#a4ffff"
+white = "#ffffff"
 
 [selection]
 save_to_clipboard = true
@@ -61,16 +62,15 @@ osc52 = "CopyPaste"
 [mouse]
 bindings = [
   # { mouse= Right, action= PasteSelection }
-{mouse="Right", action="Paste"},
+  { mouse = "Right", action = "Paste" },
 ]
 
 [keyboard]
 bindings = [
-{key="Space", mods="Control", mode="~Search", action="ToggleViMode"},
-{ key= "I", mode= "Vi|~Search", action= "ToggleViMode" },
-{ key= "I", mode= "Vi|~Search", action= "ScrollToBottom" },
+  { key = "Space", mods = "Control", mode = "~Search", action = "ToggleViMode" },
+  { key = "I", mode = "Vi|~Search", action = "ToggleViMode" },
+  { key = "I", mode = "Vi|~Search", action = "ScrollToBottom" },
   # - { key= V, mods= Control, mode= ~Vi, action= Paste },
-{ key= "F11", action = "ToggleFullscreen"},
-{ key = "T", mods="Control|Shift", action="CreateNewWindow"},
+  { key = "F11", action = "ToggleFullscreen" },
+  { key = "T", mods = "Control|Shift", action = "CreateNewWindow" },
 ]
-
