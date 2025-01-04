@@ -90,15 +90,16 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview \"head {} -n500\" --preview-window=right:60%"
 
 if cat /proc/version | grep microsoft &>/dev/null; then
-    proxy_server="$(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2)"
+    # proxy_server="$(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2)"
+    proxy_server="$(hostname -I | cut -d" " -f1)"
     export wsl_version=2
-    export DISPLAY="$(grep nameserver /etc/resolv.conf | sed 's/nameserver //'):0"
+    # export DISPLAY="$(grep nameserver /etc/resolv.conf | sed 's/nameserver //'):0"
 else
     if cat /proc/version | grep Microsoft &>/dev/null; then
         export wsl_version=1
     fi
-    proxy_server="127.0.0.1"
-#    proxy_server="192.168.31.110"
+    # proxy_server="127.0.0.1"
+   # proxy_server="192.168.31.110"
 fi
 
 #========================
@@ -119,7 +120,7 @@ function proxy_enable() {
         export no_proxy='127.0.0.1,192.6.6.6'
     fi
 }
-#proxy_enable
+# proxy_enable
 
 #========================
 # alias
