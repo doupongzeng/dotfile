@@ -89,6 +89,22 @@ return {
       key = 'F11',
       action = act.ToggleFullScreen, -- 全屏切换
     },
+    {
+      key = '_',
+      mods = 'CTRL|SHIFT',
+      -- action = wezterm.action_callback(function(window, _pane)
+      --    local dimensions = window:get_dimensions()
+      --    if dimensions.is_full_screen then
+      --       return
+      --    end
+      --    local new_width = dimensions.pixel_width - 50
+      --    local new_height = dimensions.pixel_height - 50
+      --    window:set_inner_size(new_width, new_height)
+      -- end)
+      action = wezterm.action_callback(function(window, _pane)
+        window:maximize()
+      end)
+    },
     -- 添加复制粘贴相关键位
     {
       key = 'v',
@@ -100,4 +116,5 @@ return {
   -- 其他设置
   automatically_reload_config = true, -- 自动重载配置文件
   check_for_updates = false, -- 禁用更新检查
+  disable_default_key_bindings = true,
 }
