@@ -9,24 +9,31 @@ local home_dir = wezterm.home_dir
 
 wezterm.on("gui-startup", function(cmd)
   -- 获取主屏幕的信息
-  local screen = wezterm.gui.screens().main
+  -- local screen = wezterm.gui.screens().main
+  local screen = wezterm.gui.screens().active
   -- 定义窗口大小（例如屏幕宽高的70%）
   local ratio = 0.7
   local width = screen.width * ratio
   local height = screen.height * ratio
 
   -- 启动一个新窗口
-  local tab, pane, window = mux.spawn_window(cmd or {})
+  local tab, pane, window = mux.spawn_window{
+    position = {
+      x = (screen.width - width) /2,
+      y = (screen.height -height) /2,
+      origin = 'ActiveScreen'
+    }
+  }
 
   -- 设置窗口大小
   window:gui_window():set_inner_size(width, height)
 
-  -- 计算窗口的中心位置
-  local x = (screen.width - width) / 2
-  local y = (screen.height - height) / 2
-
-  -- 将窗口移动到屏幕中央
-  window:gui_window():set_position(x, y)
+  -- -- 计算窗口的中心位置
+  -- local x = (screen.width - width) / 2
+  -- local y = (screen.height - height) / 2
+  --
+  -- -- 将窗口移动到屏幕中央
+  -- window:gui_window():set_position(x, y)
 end)
 
 wezterm.on("toggle-image", function(window, pane)
@@ -59,8 +66,6 @@ return {
   initial_cols = 120,                        -- 默认列数
   initial_rows = 30,                         -- 默认行数
   window_close_confirmation = "AlwaysPrompt", -- 关闭窗口时提示
-  -- window_background_image = home_dir .. "/dotfile/images/04180_grandtetonsunset_1680x1050.jpg",
-  -- window_background_image = home_dir .. "/dotfile/images/04190_clouds_1680x1050.jpg",
 
   -- 字体设置
   font = wezterm.font("Maple Mono Normal NL NF CN", { weight = "Regular", style = "Normal" }),
