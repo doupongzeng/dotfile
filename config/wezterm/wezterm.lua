@@ -158,7 +158,7 @@ return {
     -- 添加复制粘贴相关键位
     {
       key = "v",
-      mods = "CTRL",
+      mods = "CTRL|SHIFT",
       action = act.PasteFrom("Clipboard"), -- 从剪贴板粘贴
     },
     {
