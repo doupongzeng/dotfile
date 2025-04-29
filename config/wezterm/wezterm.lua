@@ -133,7 +133,7 @@ return {
   -- 键盘绑定
   keys = {
     {
-      key = "Space",
+      key = "b",
       mods = "CTRL",
       action = act.ActivateCopyMode, -- 进入复制模式（类似 Vi 模式）
     },
