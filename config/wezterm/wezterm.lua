@@ -59,7 +59,7 @@ return {
     left = 5,
     right = 5,
     top = 2,
-    bottom = 2,
+    bottom = 0,
   },
   window_decorations = "NONE",             -- 带有标题栏和边框 ubuntu24
   -- window_decorations = "RESIZE",             -- 带有标题栏和边框 ubuntu22
