@@ -61,7 +61,8 @@ return {
     top = 2,
     bottom = 2,
   },
-  window_decorations = "RESIZE",             -- 带有标题栏和边框
+  window_decorations = "NONE",             -- 带有标题栏和边框 ubuntu24
+  -- window_decorations = "RESIZE",             -- 带有标题栏和边框 ubuntu22
   window_background_opacity = 1.0,           -- 完全不透明
   initial_cols = 120,                        -- 默认列数
   initial_rows = 30,                         -- 默认行数
