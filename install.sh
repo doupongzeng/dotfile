@@ -15,7 +15,7 @@ fi
 
 
 if [ ! -d ~/.config/nvim ]; then
-    git clone https://github.com/doupongzeng/AstroNvim_v4_config.git ~/.config/nvim
+    git clone https://github.com/doupongzeng/AstroNvim_v5_config.git ~/.config/nvim
 fi
 
 # lua and luarock
