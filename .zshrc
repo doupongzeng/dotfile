@@ -211,6 +211,7 @@ fi
 
 export PATH="$HOME/Qt/Tools/QtCreator/bin:$PATH"
 export PATH="$HOME/Qt/5.12.11/gcc_64/bin:$PATH"
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 source "/home/hz-wsl2/emsdk/emsdk_env.sh" &> /dev/null
 
 cowsay "Less Search, More Try"
