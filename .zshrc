@@ -185,6 +185,10 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/node-v16.13.1-linux-x64/bin"
 export PATH="$PATH:$HOME/bin/repo"
 
+# CUDA
+export PATH="/usr/local/cuda/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+
 # export USE_BAZEL_VERSION=6.4.0
 export USE_BAZEL_VERSION=5.1.0
 # export USE_BAZEL_VERSION=5.4.1
