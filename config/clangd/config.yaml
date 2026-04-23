@@ -6,6 +6,7 @@ Diagnostics:
 Index:
   # Background: Skip
   Background: Build
+  StandardLibrary: No
 
 CompileFlags:
   # Treat code as C++, use C++17 standard, enable more warnings.
@@ -20,7 +21,7 @@ CompileFlags:
     # - -I/usr/local/cuda/include
   # Remove extra warnings specified in compile commands.
   # Single value is also acceptable, same as "Remove: [-mabi]"
-  Remove: [-fno-allow-store-data-races, -fconserve-stack, -march=*, -mabi=*, -Xcompiler*, -Xptxas*, -forward-unknown-to-host-compiler, --generate-code*, -rdc=*]
+  Remove: [-fno-allow-store-data-races, -fconserve-stack, -march=*, -mabi=*, -Xcompiler*, -Xptxas*, -forward-unknown-to-host-compiler, --generate-code*, -rdc=*, -fopenmp]
 
 Diagnostics:
   # Tweak Clang-Tidy checks.
