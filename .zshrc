@@ -184,6 +184,7 @@ export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/node-v16.13.1-linux-x64/bin"
 export PATH="$PATH:$HOME/bin/repo"
+export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 
 # CUDA
 export PATH="/usr/local/cuda/bin:$PATH"
