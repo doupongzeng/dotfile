@@ -1,6 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Keep PATH entries unique (collapses duplicates from re-sourcing this file)
+typeset -gU path PATH
+
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -206,7 +209,7 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
   export NVM_DIR="$HOME/.nvm"
   nvm_cmds=(nvm node npm yarn)
   for cmd in $nvm_cmds ; do
-    alias $cmd="unalias $nvm_cmds && unset nvm_cmds && . $NVM_DIR/nvm.sh && $cmd"
+    alias $cmd="unalias $nvm_cmds 2>/dev/null; unset nvm_cmds 2>/dev/null; . $NVM_DIR/nvm.sh && $cmd"
   done
 fi
 
@@ -217,8 +220,7 @@ fi
 export PATH="$HOME/Qt/Tools/QtCreator/bin:$PATH"
 export PATH="$HOME/Qt/5.12.11/gcc_64/bin:$PATH"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
-source "/home/hz-wsl2/emsdk/emsdk_env.sh" &> /dev/null
 
-cowsay "Less Search, More Try"
+[[ -o interactive && -t 1 ]] && cowsay "Less Search, More Try"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
