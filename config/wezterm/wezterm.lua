@@ -8,33 +8,20 @@ local static_current_image_index = 0
 local home_dir = wezterm.home_dir
 
 wezterm.on("gui-startup", function(cmd)
-  -- 获取主屏幕的信息
-  -- local screen = wezterm.gui.screens().main
-  local screen = wezterm.gui.screens().active
-  -- 定义窗口大小（例如屏幕宽高的70%）
-  local ratio = 0.7
-  local width = screen.width * ratio
-  local height = screen.height * ratio
-
-  -- 启动一个新窗口
-  local tab, pane, window = mux.spawn_window{
-    position = {
-      x = (screen.width - width) /2,
-      y = (screen.height -height) /2,
-      origin = 'ActiveScreen'
-    }
-  }
-
-  -- 设置窗口大小
-  window:gui_window():set_inner_size(width, height)
-
-  -- -- 计算窗口的中心位置
-  -- local x = (screen.width - width) / 2
-  -- local y = (screen.height - height) / 2
-  --
-  -- -- 将窗口移动到屏幕中央
-  -- window:gui_window():set_position(x, y)
+  local _, _, window = mux.spawn_window(cmd or {})
+  window:gui_window():maximize()
+  static_is_window_maximized = true
 end)
+
+local function toggle_maximize(window)
+  if static_is_window_maximized then
+    window:restore()
+    static_is_window_maximized = false
+  else
+    window:maximize()
+    static_is_window_maximized = true
+  end
+end
 
 wezterm.on("toggle-image", function(window, pane)
   local overrides = window:get_config_overrides() or {}
@@ -51,6 +38,17 @@ wezterm.on("toggle-image", function(window, pane)
 
   overrides.window_background_image = image_paths[static_current_image_index]
   window:set_config_overrides(overrides)
+end)
+
+local function notify(window, pane, message)
+  local title = pane:get_title() or "WezTerm"
+  window:toast_notification("WezTerm", title .. "\n" .. message, nil, 5000)
+end
+
+wezterm.on("user-var-changed", function(window, pane, name, value)
+  if name == "notify" and value ~= "" then
+    notify(window, pane, value)
+  end
 end)
 
 return {
@@ -129,6 +127,15 @@ return {
 
   -- 终端设置
   term = "xterm-256color", -- 默认终端类型
+  use_ime = true,
+  xim_im_name = "fcitx",
+  audible_bell = "Disabled", -- 禁用声音
+  visual_bell = {
+    fade_in_function = "EaseIn",
+    fade_in_duration_ms = 0,
+    fade_out_function = "EaseOut",
+    fade_out_duration_ms = 0,
+  },
 
   -- 键盘绑定
   keys = {
@@ -146,13 +153,14 @@ return {
       key = "F11",
       mods = "",
       action = wezterm.action_callback(function(window, _pane)
-        if static_is_window_maximized then
-          window:restore()
-          static_is_window_maximized = false
-        else
-          window:maximize()
-          static_is_window_maximized = true
-        end
+        toggle_maximize(window)
+      end),
+    },
+    {
+      key = "Enter",
+      mods = "SUPER",
+      action = wezterm.action_callback(function(window, _pane)
+        toggle_maximize(window)
       end),
     },
     -- 添加复制粘贴相关键位

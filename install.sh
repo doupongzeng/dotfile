@@ -79,6 +79,7 @@ ln -sf $PWD/config/i3status/config ~/.config/i3status/
 ln -sf $PWD/config/.ideavimrc ~/.ideavimrc
 ln -sf $PWD/config/clangd/config.yaml ~/.config/clangd/config.yaml
 ln -sf $PWD/config/wezterm ~/.config/wezterm
+ln -sf $PWD/config/ghostty ~/.config/ghostty
 
 # tmux italic support
 tic res/screen-256color.terminfo
