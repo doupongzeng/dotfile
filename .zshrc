@@ -138,7 +138,6 @@ alias xo="xdg-open"
 alias ys="yay -Sy"
 alias tp="$HOME/Config/template/install.sh"
 alias vimf='vim $(fzf)'
-#alias node=nodejs
 # # if [ -z ${WSL_DISTRO_NAME} ];then
 # #     alias tmux='env TERM=screen-256color tmux'
 # # fi
@@ -185,7 +184,6 @@ export PATH="$PATH:$HOME/.yarn/bin"
 export FZF_DEFAULT_COMMAND=""
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/node-v16.13.1-linux-x64/bin"
 export PATH="$PATH:$HOME/bin/repo"
 export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 
@@ -201,21 +199,16 @@ fpath+=~/.zsh_functions
 
 #screenfetch
 
-#export NVM_DIR="$HOME/.nvm"
-#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" &> /dev/null  # This loads nvm
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" &> /dev/null  # This loads nvm bash_completion
-#lazy loads nvm.sh
-if [ -s "$HOME/.nvm/nvm.sh" ]; then
-  export NVM_DIR="$HOME/.nvm"
-  nvm_cmds=(nvm node npm yarn)
-  for cmd in $nvm_cmds ; do
-    alias $cmd="unalias $nvm_cmds 2>/dev/null; unset nvm_cmds 2>/dev/null; . $NVM_DIR/nvm.sh && $cmd"
-  done
-fi
+# NVM: keep shell startup fast while making the default Node immediately available.
+export NVM_DIR="$HOME/.nvm"
+export PATH="$NVM_DIR/versions/node/v24.12.0/bin:$PATH"
 
-if [ -s "$NVM_BIN" ]; then
-  export PATH="$PATH:$NVM_BIN"
-fi
+# Load full nvm only when the nvm command is used.
+nvm() {
+  unset -f nvm
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+  nvm "$@"
+}
 
 export PATH="$HOME/Qt/Tools/QtCreator/bin:$PATH"
 export PATH="$HOME/Qt/5.12.11/gcc_64/bin:$PATH"
