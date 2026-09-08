@@ -140,6 +140,13 @@ return {
   -- 键盘绑定
   keys = {
     {
+      key = "Space",
+      mods = "SUPER",
+      action = wezterm.action_callback(function()
+        wezterm.run_child_process({ "/usr/bin/fcitx5-remote", "-t" })
+      end),
+    },
+    {
       key = "b",
       mods = "CTRL",
       action = act.ActivateCopyMode, -- 进入复制模式（类似 Vi 模式）

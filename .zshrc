@@ -184,7 +184,7 @@ export PATH="$PATH:$HOME/.yarn/bin"
 export FZF_DEFAULT_COMMAND=""
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/bin/repo"
+export PATH="$PATH:$HOME/.local/bin/repo"
 export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 
 # CUDA
@@ -217,3 +217,35 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 [[ -o interactive && -t 1 ]] && cowsay "Less Search, More Try"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# bun completions
+[ -s "/home/hz/.bun/_bun" ] && source "/home/hz/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# ── 图片查看：tmux 内强制 sixel 避免降级成字符糊块，tmux 外自动探测最优协议 ──
+img() {
+  if [[ -n "$TMUX" ]]; then
+    chafa -f sixels "$@"     # tmux 内：强制 sixel
+  else
+    chafa "$@"               # 直连 WezTerm：自动探测（iterm/kitty/sixel）
+  fi
+}
+
+# timg 同理（已安装 1.5.2），tmux 内用 sixel
+timgi() {
+  if [[ -n "$TMUX" ]]; then
+    timg -p sixel "$@"
+  else
+    timg "$@"
+  fi
+}
+
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+# QODER_DISPATCHER_PATH v1
+path=("$HOME/.qoder/entry" ${path:#"$HOME/.qoder/entry"})
+export PATH
+# END QODER_DISPATCHER_PATH v1
