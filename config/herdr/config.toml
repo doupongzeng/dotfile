@@ -1,0 +1,33 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+space"
+reload_config = "prefix+r"
+detach = "prefix+d"
+resize_mode = ""
+
+new_tab = "prefix+c"
+rename_tab = ["prefix+comma", "prefix+shift+t"]
+previous_tab = ["alt+p", "prefix+p"]
+next_tab = ["alt+n", "prefix+n"]
+close_tab = ["prefix+ampersand", "prefix+shift+x"]
+
+focus_pane_left = ["alt+h", "prefix+h", "prefix+left"]
+focus_pane_down = ["alt+j", "prefix+j", "prefix+down"]
+focus_pane_up = ["alt+k", "prefix+k", "prefix+up"]
+focus_pane_right = ["alt+l", "prefix+l", "prefix+right"]
+split_horizontal = "prefix+minus"
+split_vertical = ["prefix+backslash", "prefix+|"]
+close_pane = "prefix+x"
+zoom = "prefix+z"
+resize_pane_left = "prefix+ctrl+left"
+resize_pane_down = "prefix+ctrl+down"
+resize_pane_up = "prefix+ctrl+up"
+resize_pane_right = "prefix+ctrl+right"
+
+[ui]
+sidebar_collapsed_mode = "hidden"
+tab_bar_position = "bottom"
+pane_borders = true
+pane_outer_borders = false
+pane_gaps = false
