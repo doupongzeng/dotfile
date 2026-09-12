@@ -191,5 +191,6 @@ return {
   -- 其他设置
   automatically_reload_config = true, -- 自动重载配置文件
   check_for_updates = false,         -- 禁用更新检查
+  enable_wayland = true,
   -- disable_default_key_bindings = true,
 }
