@@ -4,9 +4,9 @@ local mux = wezterm.mux
 
 local static_is_window_maximized = false
 local static_current_image_index = 0
-
 local home_dir = wezterm.home_dir
-
+local is_darwin = wezterm.target_triple:find("darwin") ~= nil
+local is_linux = wezterm.target_triple:find("linux") ~= nil
 wezterm.on("gui-startup", function(cmd)
   local _, _, window = mux.spawn_window(cmd or {})
   window:gui_window():maximize()
@@ -128,7 +128,7 @@ return {
   -- 终端设置
   term = "xterm-256color", -- 默认终端类型
   use_ime = true,
-  xim_im_name = "fcitx",
+  xim_im_name = is_linux and "fcitx" or nil,
   audible_bell = "Disabled", -- 禁用声音
   visual_bell = {
     fade_in_function = "EaseIn",
@@ -139,13 +139,15 @@ return {
 
   -- 键盘绑定
   keys = {
-    {
-      key = "Space",
-      mods = "SUPER",
-      action = wezterm.action_callback(function()
-        wezterm.run_child_process({ "/usr/bin/fcitx5-remote", "-t" })
-      end),
-    },
+    table.unpack(is_linux and {
+      {
+        key = "Space",
+        mods = "SUPER",
+        action = wezterm.action_callback(function()
+          wezterm.run_child_process({ "/usr/bin/fcitx5-remote", "-t" })
+        end),
+      },
+    } or {}),
     {
       key = "b",
       mods = "CTRL",
@@ -191,6 +193,9 @@ return {
   -- 其他设置
   automatically_reload_config = true, -- 自动重载配置文件
   check_for_updates = false,         -- 禁用更新检查
-  enable_wayland = true,
+  enable_wayland = is_linux,
+  send_composed_key_when_left_alt_is_pressed = not is_darwin,
+  send_composed_key_when_right_alt_is_pressed = not is_darwin,
   -- disable_default_key_bindings = true,
 }
+

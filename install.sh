@@ -1,91 +1,102 @@
 #!/bin/bash
-python_version=$(python3 --version)
-python_venv=python$(echo $python_version | cut -d " " -f 2 | cut -d "." -f 1,2)-venv
+set -e
 
-sudo apt install ${python_venv} zsh tmux fuse ssh curl git build-essential libreadline-dev unzip fzf ripgrep -y
+DOTFILE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OS="$(uname -s)"
+
+echo "==> Configuring dotfiles for OS: $OS"
+
+if [ "$OS" = "Darwin" ]; then
+    if ! command -v brew &>/dev/null; then
+        echo "Error: Homebrew is required on macOS. Please install brew first."
+        exit 1
+    fi
+    echo "==> Installing macOS packages via Homebrew..."
+    brew install neovim tmux curl git unzip fzf ripgrep fd lua luarocks || true
+elif [ "$OS" = "Linux" ]; then
+    if command -v apt &>/dev/null; then
+        echo "==> Installing Linux packages via apt..."
+        python_version=$(python3 --version 2>/dev/null || true)
+        python_venv=python$(echo "$python_version" | cut -d " " -f 2 | cut -d "." -f 1,2)-venv
+        sudo apt update
+        sudo apt install ${python_venv} zsh tmux fuse ssh curl git build-essential libreadline-dev unzip fzf ripgrep lua5.3 luarocks -y || true
+    fi
+fi
 
 if [ ! -d ~/.nvm ]; then
+    echo "==> Installing nvm..."
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-    nvm install --lts
 fi
 
 if [ ! -d ~/.cargo ]; then
-    curl https://sh.rustup.rs -sSf | sh
+    echo "==> Installing rustup..."
+    curl https://sh.rustup.rs -sSf | sh -s -- -y || true
 fi
-
 
 if [ ! -d ~/.config/nvim ]; then
-    git clone https://github.com/doupongzeng/AstroNvim_v5_config.git ~/.config/nvim
+    echo "==> Cloning nvim config..."
+    git clone https://github.com/doupongzeng/AstroNvim_v5_config.git ~/.config/nvim || true
 fi
 
-# lua and luarock
-cd /tmp
-wget http://www.lua.org/ftp/lua-5.3.5.tar.gz
-tar -zxf lua-5.3.5.tar.gz
-cd lua-5.3.5
-make linux test
-sudo make install
-
-cd /tmp
-wget https://luarocks.org/releases/luarocks-3.11.1.tar.gz
-tar zxpf luarocks-3.11.1.tar.gz
-cd luarocks-3.11.1
-./configure --with-lua-include=/usr/local/include
-make && sudo make install
-sudo luarocks install luasocket
-
-cd ~/dotfile
-
-
-cd $(dirname $0)
-
 if [ ! -d ~/.oh-my-zsh ]; then
-    echo "Install oh-my-zsh first!"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo "==> Installing oh-my-zsh..."
+    RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" || true
 fi
 
 ZSH_CUSTOM=${ZSH_CUSTOM:-~/.oh-my-zsh/custom}
 Z_LUA_PATH=${ZSH_CUSTOM}/plugins/z.lua
 ZSH_AUTOSUGGESTIONS=${ZSH_CUSTOM}/plugins/zsh-autosuggestions
 
-if [ ! -d $Z_LUA_PATH ]; then
-    git clone https://github.com/skywind3000/z.lua $Z_LUA_PATH
+if [ ! -d "$Z_LUA_PATH" ]; then
+    echo "==> Cloning z.lua plugin..."
+    git clone https://github.com/skywind3000/z.lua "$Z_LUA_PATH"
 fi
 
-if [ ! -d $ZSH_AUTOSUGGESTIONS ]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_AUTOSUGGESTIONS
+if [ ! -d "$ZSH_AUTOSUGGESTIONS" ]; then
+    echo "==> Cloning zsh-autosuggestions plugin..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_AUTOSUGGESTIONS"
 fi
 
-ln -sf $PWD/.zshrc ~/
-ln -sf $PWD/.tmux.conf ~/
-ln -sf $PWD/.clang-format ~/
+echo "==> Linking dotfiles..."
+ln -sf "$DOTFILE_DIR/.zshrc" ~/
+ln -sf "$DOTFILE_DIR/.tmux.conf" ~/
+ln -sf "$DOTFILE_DIR/.clang-format" ~/
+ln -sf "$DOTFILE_DIR/config/.ideavimrc" ~/
 
-if [ ! -d ~/.config/alacritty ]; then
-  mkdir -p ~/.config/alacritty
-fi
-ln -sf $PWD/config/alacritty.toml ~/.config/alacritty/
+mkdir -p ~/.config/alacritty
+[ -L ~/.config/alacritty/alacritty.yml ] && rm -f ~/.config/alacritty/alacritty.yml
+ln -sf "$DOTFILE_DIR/config/alacritty.toml" ~/.config/alacritty/alacritty.toml
 
-if [ ! -d ~/.config/i3 ]; then
-    mkdir ~/.config/i3
+mkdir -p ~/.config/clangd
+ln -sf "$DOTFILE_DIR/config/clangd/config.yaml" ~/.config/clangd/config.yaml
+
+mkdir -p ~/.config/wezterm
+ln -sf "$DOTFILE_DIR/config/wezterm/wezterm.lua" ~/.config/wezterm/wezterm.lua
+
+mkdir -p ~/.config/ghostty
+ln -sf "$DOTFILE_DIR/config/ghostty/config" ~/.config/ghostty/config
+
+mkdir -p ~/.config/herdr
+ln -sf "$DOTFILE_DIR/config/herdr/config.toml" ~/.config/herdr/config.toml
+
+if [ "$OS" = "Darwin" ]; then
+    mkdir -p "$HOME/Library/Preferences/clangd"
+    ln -sf "$DOTFILE_DIR/config/clangd/config.yaml" "$HOME/Library/Preferences/clangd/config.yaml"
+    mkdir -p "$HOME/Library/Application Support/com.mitchellh.ghostty"
+    ln -sf "$DOTFILE_DIR/config/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 fi
-if [ ! -d ~/.config/i3status ]; then
-    mkdir ~/.config/i3status
+
+if [ "$OS" = "Linux" ]; then
+    mkdir -p ~/.config/i3 ~/.config/i3status
+    ln -sf "$DOTFILE_DIR/config/i3/config" ~/.config/i3/
+    ln -sf "$DOTFILE_DIR/config/i3status/config" ~/.config/i3status/
+
+    if [ -d ~/.local/share/konsole ]; then
+        cp "$DOTFILE_DIR/res/Monokai.colorscheme" ~/.local/share/konsole/
+    fi
 fi
-if [ ! -d ~/.config/clangd ]; then
-    mkdir ~/.config/clangd
-fi
-ln -sf $PWD/config/i3/config ~/.config/i3/
-ln -sf $PWD/config/i3status/config ~/.config/i3status/
-ln -sf $PWD/config/.ideavimrc ~/.ideavimrc
-ln -sf $PWD/config/clangd/config.yaml ~/.config/clangd/config.yaml
-ln -sf $PWD/config/wezterm ~/.config/wezterm
-ln -sf $PWD/config/ghostty ~/.config/ghostty
-ln -sf $PWD/config/herdr ~/.config/herdr
 
 # tmux italic support
-tic res/screen-256color.terminfo
+tic -x "$DOTFILE_DIR/res/screen-256color.terminfo" 2>/dev/null || tic "$DOTFILE_DIR/res/screen-256color.terminfo" 2>/dev/null || true
 
-# konsole colorscheme
-if [ -d ~/.local/share/konsole ];then
-    cp res/Monokai.colorscheme ~/.local/share/konsole/
-fi
+echo "==> Done!"

@@ -7,10 +7,9 @@ font-style = Regular
 
 # ── 窗口外观 ──────────────────────────────────────────
 # 无系统窗口装饰，仅保留 Ghostty 顶部 tab 栏
-# 拖动窗口：使用桌面环境/窗口管理器的 Alt + 鼠标左键拖动
+# 拖动窗口：使用桌面环境/窗口管理器的 Alt + 鼠标左键拖动（macOS 下亦支持窗口顶栏拖动）
 window-decoration = none
 window-show-tab-bar = always
-gtk-tabs-location = top
 background-opacity = 1.0
 window-padding-x = 5
 # top=2, bottom=0（Ghostty 上下统一，取 top 值）
@@ -63,12 +62,11 @@ copy-on-select = clipboard
 keybind = ctrl+f11=toggle_fullscreen
 keybind = f11=toggle_fullscreen
 
-# Ctrl+Shift+V 粘贴
+# Ctrl+Shift+V 粘贴 (macOS 下原生同时支持 Cmd+V)
 keybind = ctrl+shift+v=paste_from_clipboard
 
-# Win+T 新建标签页
+# Win+T / Cmd+T 新建标签页
 keybind = super+t=new_tab
-
 
 # 禁用 Alt+Enter 的默认行为
 keybind = alt+enter=unbind

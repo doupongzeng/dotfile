@@ -4,6 +4,11 @@
 # Keep PATH entries unique (collapses duplicates from re-sourcing this file)
 typeset -gU path PATH
 
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -75,7 +80,14 @@ plugins=(git sudo extract colored-man-pages fzf z.lua zsh-autosuggestions)
 
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#767676"
 
-source $HOME/.profile
+if command -v brew &>/dev/null; then
+    FZF_BREW_PREFIX="$(brew --prefix fzf 2>/dev/null)"
+    if [[ -n "$FZF_BREW_PREFIX" && -d "$FZF_BREW_PREFIX" ]]; then
+        export FZF_BASE="$FZF_BREW_PREFIX"
+    fi
+fi
+
+[ -f "$HOME/.profile" ] && source "$HOME/.profile"
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -87,22 +99,18 @@ export EDITOR='nvim'
 #  export MANPAGER='nvim -R +":set ft=man" -' #这在会man颜色会乱码 neovim 5.0+
 export MANPAGER='nvim +Man!'
 
-export FZF_DEFAULT_COMMAND="fd --exclude={.git,.svn,.idea,.vscode,build} --type f"
+if command -v fd &>/dev/null; then
+    export FZF_DEFAULT_COMMAND="fd --exclude={.git,.svn,.idea,.vscode,build} --type f"
+fi
 export FZF_DEFAULT_OPTS="--height 60% --layout=reverse"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview \"head {} -n500\" --preview-window=right:60%"
 
-if cat /proc/version | grep microsoft &>/dev/null; then
-    # proxy_server="$(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2)"
-    proxy_server="$(hostname -I | cut -d" " -f1)"
-    export wsl_version=2
-    # export DISPLAY="$(grep nameserver /etc/resolv.conf | sed 's/nameserver //'):0"
-else
-    if cat /proc/version | grep Microsoft &>/dev/null; then
-        export wsl_version=1
+if [[ -f /proc/version ]]; then
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+        proxy_server="$(hostname -I 2>/dev/null | cut -d" " -f1)"
+        export wsl_version=2
     fi
-    # proxy_server="127.0.0.1"
-   # proxy_server="192.168.31.110"
 fi
 
 #========================
@@ -134,8 +142,14 @@ alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias vimrc="vim ~/.config/nvim/init.lua"
 alias p4=proxychains4
-alias xo="xdg-open"
-alias ys="yay -Sy"
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias xo="open"
+    alias leakcheck="leaks -atExit --"
+else
+    alias xo="xdg-open"
+    command -v yay &>/dev/null && alias ys="yay -Sy"
+    alias leakcheck="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes"
+fi
 alias tp="$HOME/Config/template/install.sh"
 alias vimf='vim $(fzf)'
 # # if [ -z ${WSL_DISTRO_NAME} ];then
@@ -155,8 +169,7 @@ alias cmakegd="[ -f CMakeLists.txt ] && ln -sf build/compile_commands.json ./;\
     cmake -S. -Bbuild -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug"
 alias cmakeb="cmakeg && cmake --build build"
 alias cmaker="cmakeg && cmake --build build --target run"
-alias leakcheck="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes"
-alias linguist="~/Qt5.14.2/5.14.2/gcc_64/bin/linguist"
+[[ -d "$HOME/Qt5.14.2/5.14.2/gcc_64/bin" ]] && alias linguist="$HOME/Qt5.14.2/5.14.2/gcc_64/bin/linguist"
 alias gs='git status'
 alias ga='git add'
 alias gc='git commit -m'
@@ -166,12 +179,16 @@ alias gcb='git checkout -b'
 # alias adb='~/Android/Sdk/platform-tools/adb'
 alias fish='/usr/local/bin/asciiquarium'
 alias getidf='. $HOME/esp/esp-idf/export.sh'
-alias ob='/usr/bin/obsidian > /dev/null 2>&1 &'
-alias qtcreator='qtcreator > /dev/null 2>&1 &'
-alias androidstudio='~/android-studio/bin/studio.sh > /dev/null 2>&1 &'
-alias esl='/usr/local/bin/esl > /dev/null 2>&1 &'
-alias edge='/usr/bin/microsoft-edge > /dev/null 2>&1 &'
-alias shot='flameshot gui'
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias ob="open -a 'Obsidian'"
+    alias edge="open -a 'Microsoft Edge'"
+    alias androidstudio="open -a 'Android Studio'"
+else
+    alias ob='/usr/bin/obsidian > /dev/null 2>&1 &'
+    alias edge='/usr/bin/microsoft-edge > /dev/null 2>&1 &'
+    alias androidstudio='~/android-studio/bin/studio.sh > /dev/null 2>&1 &'
+    alias shot='flameshot gui'
+fi
 
 #========================
 # keybinding
@@ -181,16 +198,15 @@ bindkey '^ ' autosuggest-accept
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$HOME/.rvm/bin:$PATH"
 export PATH="$PATH:$HOME/.yarn/bin"
-export FZF_DEFAULT_COMMAND=""
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$PATH:$HOME/.local/bin/repo"
-export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
 
-# CUDA
-export PATH="/usr/local/cuda/bin:$PATH"
-export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
-
+if [[ "$(uname)" == "Linux" ]]; then
+    [[ -d /opt/nvim-linux-x86_64/bin ]] && export PATH="/opt/nvim-linux-x86_64/bin:$PATH"
+    [[ -d /usr/local/cuda/bin ]] && export PATH="/usr/local/cuda/bin:$PATH"
+    [[ -d /usr/local/cuda/lib64 ]] && export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+fi
 # export USE_BAZEL_VERSION=6.4.0
 export USE_BAZEL_VERSION=5.1.0
 # export USE_BAZEL_VERSION=5.4.1
@@ -201,7 +217,11 @@ fpath+=~/.zsh_functions
 
 # NVM: keep shell startup fast while making the default Node immediately available.
 export NVM_DIR="$HOME/.nvm"
-export PATH="$NVM_DIR/versions/node/v24.12.0/bin:$PATH"
+if [[ -d "$NVM_DIR/versions/node" ]]; then
+    _latest_node="$(ls -d "$NVM_DIR"/versions/node/* 2>/dev/null | tail -n 1)"
+    [[ -n "$_latest_node" && -d "$_latest_node/bin" ]] && export PATH="$_latest_node/bin:$PATH"
+    unset _latest_node
+fi
 
 # Load full nvm only when the nvm command is used.
 nvm() {
@@ -210,16 +230,18 @@ nvm() {
   nvm "$@"
 }
 
-export PATH="$HOME/Qt/Tools/QtCreator/bin:$PATH"
-export PATH="$HOME/Qt/5.12.11/gcc_64/bin:$PATH"
-export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
+if [[ "$(uname)" == "Linux" ]]; then
+    [[ -d "$HOME/Qt/Tools/QtCreator/bin" ]] && export PATH="$HOME/Qt/Tools/QtCreator/bin:$PATH"
+    [[ -d "$HOME/Qt/5.12.11/gcc_64/bin" ]] && export PATH="$HOME/Qt/5.12.11/gcc_64/bin:$PATH"
+fi
 
-[[ -o interactive && -t 1 ]] && cowsay "Less Search, More Try"
+[[ -o interactive && -t 1 ]] && command -v cowsay &>/dev/null && cowsay "Less Search, More Try"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # bun completions
-[ -s "/home/hz/.bun/_bun" ] && source "/home/hz/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
