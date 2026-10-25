@@ -51,6 +51,59 @@ wezterm.on("user-var-changed", function(window, pane, name, value)
   end
 end)
 
+local keys = {
+  {
+    key = "b",
+    mods = "CTRL",
+    action = act.ActivateCopyMode, -- 进入复制模式（类似 Vi 模式）
+  },
+  {
+    key = "F11",
+    mods = "CTRL",
+    action = act.ToggleFullScreen, -- 全屏切换
+  },
+  {
+    key = "F11",
+    mods = "",
+    action = wezterm.action_callback(function(window, _pane)
+      toggle_maximize(window)
+    end),
+  },
+  {
+    key = "Enter",
+    mods = "SUPER",
+    action = wezterm.action_callback(function(window, _pane)
+      toggle_maximize(window)
+    end),
+  },
+  -- 添加复制粘贴相关键位
+  {
+    key = "v",
+    mods = "CTRL|SHIFT",
+    action = act.PasteFrom("Clipboard"), -- 从剪贴板粘贴
+  },
+  {
+    key = ",",
+    mods = "SUPER",
+    action = act.EmitEvent("toggle-image"), -- 切换背景图
+  },
+  {
+    key = "Enter",
+    mods = "ALT",
+    action = wezterm.action.DisableDefaultAssignment, -- 禁用默认的 Alt+Enter 全屏行为
+  },
+}
+
+if is_linux then
+  table.insert(keys, 1, {
+    key = "Space",
+    mods = "SUPER",
+    action = wezterm.action_callback(function()
+      wezterm.run_child_process({ "/usr/bin/fcitx5-remote", "-t" })
+    end),
+  })
+end
+
 return {
   -- 窗口设置
   window_padding = {
@@ -138,57 +191,7 @@ return {
   },
 
   -- 键盘绑定
-  keys = {
-    table.unpack(is_linux and {
-      {
-        key = "Space",
-        mods = "SUPER",
-        action = wezterm.action_callback(function()
-          wezterm.run_child_process({ "/usr/bin/fcitx5-remote", "-t" })
-        end),
-      },
-    } or {}),
-    {
-      key = "b",
-      mods = "CTRL",
-      action = act.ActivateCopyMode, -- 进入复制模式（类似 Vi 模式）
-    },
-    {
-      key = "F11",
-      mods = "CTRL",
-      action = act.ToggleFullScreen, -- 全屏切换
-    },
-    {
-      key = "F11",
-      mods = "",
-      action = wezterm.action_callback(function(window, _pane)
-        toggle_maximize(window)
-      end),
-    },
-    {
-      key = "Enter",
-      mods = "SUPER",
-      action = wezterm.action_callback(function(window, _pane)
-        toggle_maximize(window)
-      end),
-    },
-    -- 添加复制粘贴相关键位
-    {
-      key = "v",
-      mods = "CTRL|SHIFT",
-      action = act.PasteFrom("Clipboard"), -- 从剪贴板粘贴
-    },
-    {
-      key = ",",
-      mods = "SUPER",
-      action = act.EmitEvent("toggle-image"), -- 从剪贴板粘贴
-    },
-    {
-      key = "Enter",
-      mods = "ALT",
-      action = wezterm.action.DisableDefaultAssignment, -- 禁用默认的 Alt+Enter 全屏行为
-    },
-  },
+  keys = keys,
 
   -- 其他设置
   automatically_reload_config = true, -- 自动重载配置文件

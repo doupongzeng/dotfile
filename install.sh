@@ -12,7 +12,7 @@ if [ "$OS" = "Darwin" ]; then
         exit 1
     fi
     echo "==> Installing macOS packages via Homebrew..."
-    brew install neovim tmux curl git unzip fzf ripgrep fd lua luarocks cowsay || true
+    brew install neovim tmux curl git unzip fzf ripgrep fd lua luarocks cowsay herdr || true
     brew install --cask font-maple-mono-normal-nl-nf-cn || true
 elif [ "$OS" = "Linux" ]; then
     if command -v apt &>/dev/null; then
