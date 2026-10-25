@@ -60,6 +60,17 @@ if [ ! -d "$ZSH_AUTOSUGGESTIONS" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_AUTOSUGGESTIONS"
 fi
 
+if [ "$OS" = "Darwin" ]; then
+    WEZTERM_COMPLETION="/Applications/WezTerm.app/Contents/Resources/shell-completion/zsh"
+    if [ -f "$WEZTERM_COMPLETION" ]; then
+        mkdir -p "$ZSH_CUSTOM/completions"
+        cp "$WEZTERM_COMPLETION" "$ZSH_CUSTOM/completions/_wezterm"
+        rm -f "$(brew --prefix)/share/zsh/site-functions/_wezterm"
+        # 让新的补全在下一次启动时重建缓存
+        rm -f "$HOME"/.zcompdump-*
+    fi
+fi
+
 echo "==> Linking dotfiles..."
 ln -sf "$DOTFILE_DIR/.zshrc" ~/
 ln -sf "$DOTFILE_DIR/.tmux.conf" ~/
