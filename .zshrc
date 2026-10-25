@@ -106,32 +106,32 @@ export FZF_DEFAULT_OPTS="--height 60% --layout=reverse"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview \"head {} -n500\" --preview-window=right:60%"
 
-if [[ -f /proc/version ]]; then
-    if grep -qi microsoft /proc/version 2>/dev/null; then
+if [[ "$(uname)" == "Linux" ]]; then
+    if [[ -f /proc/version ]] && grep -qi microsoft /proc/version 2>/dev/null; then
         proxy_server="$(hostname -I 2>/dev/null | cut -d" " -f1)"
         export wsl_version=2
     fi
-fi
 
-#========================
-# functions
-#========================
-function proxy_enable() {
-    if [ ${1:-1} -eq 0 ]; then
-        unset ALL_PROXY
-        unset all_proxy
-        unset http_proxy
-        unset https_proxy
-        unset no_proxy
-    else
-        export ALL_PROXY=http://$proxy_server:7890
-        export all_proxy=$ALL_PROXY
-        export http_proxy=$ALL_PROXY
-        export https_proxy=$ALL_PROXY
-        export no_proxy='127.0.0.1,192.6.6.6'
-    fi
-}
-# proxy_enable
+    #========================
+    # functions
+    #========================
+    function proxy_enable() {
+        if [ ${1:-1} -eq 0 ]; then
+            unset ALL_PROXY
+            unset all_proxy
+            unset http_proxy
+            unset https_proxy
+            unset no_proxy
+        else
+            export ALL_PROXY=http://$proxy_server:7890
+            export all_proxy=$ALL_PROXY
+            export http_proxy=$ALL_PROXY
+            export https_proxy=$ALL_PROXY
+            export no_proxy='127.0.0.1,192.6.6.6'
+        fi
+    }
+    # proxy_enable
+fi
 
 #========================
 # alias
@@ -141,7 +141,6 @@ alias vim=nvim
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias vimrc="vim ~/.config/nvim/init.lua"
-alias p4=proxychains4
 if [[ "$(uname)" == "Darwin" ]]; then
     alias xo="open"
     alias leakcheck="leaks -atExit --"
@@ -149,6 +148,9 @@ else
     alias xo="xdg-open"
     command -v yay &>/dev/null && alias ys="yay -Sy"
     alias leakcheck="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes"
+    alias p4=proxychains4
+    alias fish='/usr/local/bin/asciiquarium'
+    alias getidf='. $HOME/esp/esp-idf/export.sh'
 fi
 alias tp="$HOME/Config/template/install.sh"
 alias vimf='vim $(fzf)'
@@ -177,13 +179,7 @@ alias gcd='git checkout'
 alias gcb='git checkout -b'
 
 # alias adb='~/Android/Sdk/platform-tools/adb'
-alias fish='/usr/local/bin/asciiquarium'
-alias getidf='. $HOME/esp/esp-idf/export.sh'
-if [[ "$(uname)" == "Darwin" ]]; then
-    alias ob="open -a 'Obsidian'"
-    alias edge="open -a 'Microsoft Edge'"
-    alias androidstudio="open -a 'Android Studio'"
-else
+if [[ "$(uname)" != "Darwin" ]]; then
     alias ob='/usr/bin/obsidian > /dev/null 2>&1 &'
     alias edge='/usr/bin/microsoft-edge > /dev/null 2>&1 &'
     alias androidstudio='~/android-studio/bin/studio.sh > /dev/null 2>&1 &'
@@ -224,11 +220,13 @@ if [[ -d "$NVM_DIR/versions/node" ]]; then
 fi
 
 # Load full nvm only when the nvm command is used.
-nvm() {
-  unset -f nvm
-  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-  nvm "$@"
-}
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    nvm() {
+      unset -f nvm
+      . "$NVM_DIR/nvm.sh"
+      nvm "$@"
+    }
+fi
 
 if [[ "$(uname)" == "Linux" ]]; then
     [[ -d "$HOME/Qt/Tools/QtCreator/bin" ]] && export PATH="$HOME/Qt/Tools/QtCreator/bin:$PATH"

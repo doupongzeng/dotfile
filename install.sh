@@ -12,7 +12,8 @@ if [ "$OS" = "Darwin" ]; then
         exit 1
     fi
     echo "==> Installing macOS packages via Homebrew..."
-    brew install neovim tmux curl git unzip fzf ripgrep fd lua luarocks || true
+    brew install neovim tmux curl git unzip fzf ripgrep fd lua luarocks cowsay || true
+    brew install --cask font-maple-mono-normal-nl-nf-cn || true
 elif [ "$OS" = "Linux" ]; then
     if command -v apt &>/dev/null; then
         echo "==> Installing Linux packages via apt..."
@@ -23,14 +24,16 @@ elif [ "$OS" = "Linux" ]; then
     fi
 fi
 
-if [ ! -d ~/.nvm ]; then
-    echo "==> Installing nvm..."
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-fi
+if [ "$OS" = "Linux" ]; then
+    if [ ! -d ~/.nvm ]; then
+        echo "==> Installing nvm..."
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    fi
 
-if [ ! -d ~/.cargo ]; then
-    echo "==> Installing rustup..."
-    curl https://sh.rustup.rs -sSf | sh -s -- -y || true
+    if [ ! -d ~/.cargo ]; then
+        echo "==> Installing rustup..."
+        curl https://sh.rustup.rs -sSf | sh -s -- -y || true
+    fi
 fi
 
 if [ ! -d ~/.config/nvim ]; then
@@ -63,18 +66,11 @@ ln -sf "$DOTFILE_DIR/.tmux.conf" ~/
 ln -sf "$DOTFILE_DIR/.clang-format" ~/
 ln -sf "$DOTFILE_DIR/config/.ideavimrc" ~/
 
-mkdir -p ~/.config/alacritty
-[ -L ~/.config/alacritty/alacritty.yml ] && rm -f ~/.config/alacritty/alacritty.yml
-ln -sf "$DOTFILE_DIR/config/alacritty.toml" ~/.config/alacritty/alacritty.toml
-
 mkdir -p ~/.config/clangd
 ln -sf "$DOTFILE_DIR/config/clangd/config.yaml" ~/.config/clangd/config.yaml
 
 mkdir -p ~/.config/wezterm
 ln -sf "$DOTFILE_DIR/config/wezterm/wezterm.lua" ~/.config/wezterm/wezterm.lua
-
-mkdir -p ~/.config/ghostty
-ln -sf "$DOTFILE_DIR/config/ghostty/config" ~/.config/ghostty/config
 
 mkdir -p ~/.config/herdr
 ln -sf "$DOTFILE_DIR/config/herdr/config.toml" ~/.config/herdr/config.toml
@@ -82,11 +78,14 @@ ln -sf "$DOTFILE_DIR/config/herdr/config.toml" ~/.config/herdr/config.toml
 if [ "$OS" = "Darwin" ]; then
     mkdir -p "$HOME/Library/Preferences/clangd"
     ln -sf "$DOTFILE_DIR/config/clangd/config.yaml" "$HOME/Library/Preferences/clangd/config.yaml"
-    mkdir -p "$HOME/Library/Application Support/com.mitchellh.ghostty"
-    ln -sf "$DOTFILE_DIR/config/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 fi
 
 if [ "$OS" = "Linux" ]; then
+    mkdir -p ~/.config/alacritty ~/.config/ghostty
+    [ -L ~/.config/alacritty/alacritty.yml ] && rm -f ~/.config/alacritty/alacritty.yml
+    ln -sf "$DOTFILE_DIR/config/alacritty.toml" ~/.config/alacritty/alacritty.toml
+    ln -sf "$DOTFILE_DIR/config/ghostty/config" ~/.config/ghostty/config
+
     mkdir -p ~/.config/i3 ~/.config/i3status
     ln -sf "$DOTFILE_DIR/config/i3/config" ~/.config/i3/
     ln -sf "$DOTFILE_DIR/config/i3status/config" ~/.config/i3status/
