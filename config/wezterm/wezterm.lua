@@ -112,7 +112,7 @@ return {
     top = 2,
     bottom = 0,
   },
-  window_decorations = "NONE",             -- 隐藏系统标题栏和可调整大小边框
+  window_decorations = is_darwin and "RESIZE" or "NONE", -- macOS 保留可缩放边框，否则无法最大化
   window_background_opacity = 1.0,           -- 完全不透明
   initial_cols = 120,                        -- 默认列数
   initial_rows = 30,                         -- 默认行数
